@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Describing Objects: Adjective Order</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1f2530;--mu:#5d6573;--ln:#d9dde4;--ok:#1f7a45;--okb:#e1f4e8;--no:#b3261e;--nob:#fce8e6;
+--c1:#c4533a;--c2:#d08a1e;--c3:#7a8a2e;--c4:#3f9560;--c5:#3b78b8;--c6:#8556b0;--c7:#a8702a;--c8:#b83f72;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1e232b;--tx:#eceff4;--mu:#a3acba;--ln:#363d49;--ok:#7bd39a;--okb:#1c3626;--no:#ff9b93;--nob:#41211f}}
+:root[data-theme="dark"]{--bg:#14171c;--card:#1e232b;--tx:#eceff4;--mu:#a3acba;--ln:#363d49;--ok:#7bd39a;--okb:#1c3626;--no:#ff9b93;--nob:#41211f}
+*{box-sizing:border-box}html{scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 "Avenir Next","Segoe UI",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--card);border-bottom:1px solid var(--ln);padding:8px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.bar b{font-size:1.05rem}.tot{font-weight:700;font-size:1.1rem}
+main{max-width:860px;margin:0 auto;padding:14px}
+h1{font:800 clamp(1.8rem,5vw,2.6rem)/1.1 Georgia,"Times New Roman",serif;margin:14px 0 6px}
+h2{margin:0 0 4px;font-size:1.25rem;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sec{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px;margin:16px 0}
+.sc{font-size:.95rem;color:var(--mu);font-weight:600}
+.rule{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0}
+.rule span,.tag{padding:3px 10px;border-radius:99px;font-weight:600;font-size:.9rem;color:#fff}
+.rule i{color:var(--mu);font-style:normal}
+.k1{background:var(--c1)}.k2{background:var(--c2)}.k3{background:var(--c3)}.k4{background:var(--c4)}.k5{background:var(--c5)}.k6{background:var(--c6)}.k7{background:var(--c7)}.k8{background:var(--c8)}
+.hint{color:var(--mu);margin:2px 0 10px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:9px 0;border-top:1px solid var(--ln)}
+.row:first-of-type{border-top:0}
+.em{font-size:2rem;line-height:1;min-width:2.4rem;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0 18px}
+select,input[type=text]{font:inherit;color:var(--tx);background:var(--bg);border:2px solid var(--ln);border-radius:8px;padding:7px 9px;min-width:0}
+input[type=text]{flex:1 1 240px}
+select:focus,input:focus,button:focus-visible{outline:3px solid var(--c5);outline-offset:1px}
+button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:8px 14px;background:var(--c5);color:#fff;cursor:pointer}
+button.alt{background:transparent;color:var(--tx);border:2px solid var(--ln)}
+.chip{background:var(--bg);color:var(--tx);border:2px solid var(--ln);padding:6px 12px}
+.line{min-height:44px;flex:1 1 260px;border:2px dashed var(--ln);border-radius:8px;padding:6px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.line .chip{border-color:var(--c5)}
+.ok{border-color:var(--ok)!important;background:var(--okb)!important}.bad{border-color:var(--no)!important;background:var(--nob)!important}
+.fb{flex:1 1 100%;font-size:.95rem;font-weight:600;min-height:1.2em}.fb.ok{color:var(--ok);background:none!important}.fb.no{color:var(--no)}
+.opts{display:flex;flex-direction:column;gap:7px;flex:1 1 260px}.opts button{text-align:left;background:var(--bg);color:var(--tx);border:2px solid var(--ln)}
+.top{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+</style></head><body>
+<div class="bar"><b>Describing Objects</b><span class="tot" id="tot">Score: 0 / 0</span></div>
+<main>
+<h1>Describing objects: adjective order</h1>
+<div class="rule" id="rule"></div>
+<p class="hint">Example: It’s a <b>beautiful</b> <b>small</b> <b>new</b> <b>rectangular</b> <b>black</b> <b>Italian</b> <b>leather</b> bag.</p>
+<div class="top"><input type="text" id="nm" placeholder="Your name" aria-label="Your name"><button id="cp">Copy my results</button><span class="sc" id="cpm"></span></div>
+<div id="app"></div>
+<p class="hint">You can retry every item as many times as you like. Your score counts the items that are correct right now.</p>
+</main>
+<script>
+const CAT=["Opinion","Size","Age / condition","Shape","Colour","Origin","Material","Purpose"];
+const $=s=>document.querySelector(s);
+const N=s=>s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?]/g,"").replace(/\bit is\b/g,"it's").replace(/\bthey are\b/g,"they're").replace(/\s+/g," ").trim();
+$("#rule").innerHTML=CAT.map((c,i)=>`<span class="k${i+1}">${c}</span>`).join("<i>→</i>")+"<i>+ noun</i>";
+
+/* ---------- data ---------- */
+const A=[["ugly",0],["tiny",1],["second-hand",2],["round",3],["orange",4],["French",5],["ceramic",6],["for travelling",7],["expensive",0],["heavy",1],["damaged",2],["wool",6]];
+const B=[["bag",["leather","small","beautiful","black"],"beautiful small black leather"],
+["table",["wooden","ugly","round","old"],"ugly old round wooden"],
+["phone",["Japanese","new","expensive"],"expensive new Japanese"],
+["box",["cardboard","brown","big","square"],"big square brown cardboard"],
+["mug",["ceramic","Japanese","white","lovely","small"],"lovely small white Japanese ceramic"]];
+const C=[["a small black bag","a black small bag"],["a round beautiful clock","a beautiful round clock"],["a new Japanese phone","a Japanese new phone"],["a leather brown wallet","a brown leather wallet"],["a metal big cooking pot","a big metal cooking pot","a cooking big metal pot"]];
+const CA=[0,1,0,1,1];
+const D=[["👜","leather, small, black, beautiful","It’s a beautiful small black leather bag.","bag"],
+["🪑","wooden, old, comfortable, brown","It’s a comfortable old brown wooden chair.","chair"],
+["📱","Japanese, new, expensive","It’s an expensive new Japanese phone.","phone"],
+["🕶️","plastic, round, cheap, black","They’re cheap round black plastic sunglasses.","sunglasses"],
+["🍲","metal, big, cooking, lovely, silver","It’s a lovely big silver metal cooking pot.","pot"]];
+const E=[["🇮🇹","It’s Italian. It was made in","","italy","Write the country, not the nationality."],
+["🇯🇵","It’s Japanese. It was made in","","japan","Write the country, not the nationality."],
+["📓","It’s a notebook","(write) notes.","for writing","Purpose: for + verb + -ing."],
+["🧳","It’s a suitcase","(travel).","for travelling|for traveling","Purpose: for + verb + -ing."],
+["👛","It’s a wallet","(keep) money.","for keeping","Purpose: for + verb + -ing."],
+["🧘","It’s a mat","(do) exercise.","for doing","Purpose: for + verb + -ing."],
+["🐑","It’s a jumper. It’s made of","","wool","Think of the animal."]];
+
+const S={a:A.map(_=>0),b:B.map(_=>0),c:C.map(_=>0),d:D.map(_=>0),e:E.map(_=>0)};
+const T={a:"1. Sort the words",b:"2. Put the adjectives in order",c:"3. Choose the correct sentence",d:"4. Describe the object",e:"5. Origin, material and purpose"};
+function upd(){let t=0,m=0;for(const k in S){const s=S[k].reduce((x,y)=>x+y,0);t+=s;m+=S[k].length;$("#sc"+k).textContent=s+" / "+S[k].length}$("#tot").textContent="Score: "+t+" / "+m;return[t,m]}
+function mark(el,ok){el.classList.toggle("ok",ok);el.classList.toggle("bad",!ok)}
+function sec(k,hint,body){return `<section class="sec"><h2><span>${T[k]}</span><span class="sc" id="sc${k}"></span></h2><p class="hint">${hint}</p>${body}</section>`}
+
+/* ---------- build ---------- */
+let h="";
+h+=sec("a","Which group does each word belong to? Choose from the list.",'<div class="grid">'+A.map((a,i)=>`<div class="row"><b style="min-width:7.5em">${a[0]}</b><select data-a="${i}"><option value="">Choose…</option>${CAT.map((c,j)=>`<option value="${j}">${c}</option>`).join("")}</select><span class="fb" style="flex:0 0 auto;min-height:0" id="fa${i}"></span></div>`).join("")+"</div>");
+h+=sec("b","Tap the words in the correct order. Tap a word in the answer line to take it back.",B.map((b,i)=>`<div class="row"><span>It’s a(n)</span><div class="line" id="lb${i}"></div><span>${b[0]}.</span><div class="line" id="pb${i}" style="border-style:solid"></div><button data-b="${i}">Check</button><button class="alt" data-r="${i}">Clear</button><div class="fb" id="fb${i}"></div></div>`).join(""));
+h+=sec("c","Tap the sentence with the adjectives in the correct order.",C.map((c,i)=>`<div class="row"><div class="opts" id="oc${i}">${c.map((o,j)=>`<button data-c="${i}.${j}">${o}</button>`).join("")}</div><div class="fb" id="fc${i}"></div></div>`).join(""));
+h+=sec("d","Use all the adjectives to describe the object. Write a full sentence: It’s a / an … (or They’re … for plural). Press Check or Enter.",D.map((d,i)=>`<div class="row"><span class="em">${d[0]}</span><div style="flex:1 1 240px"><div class="hint" style="margin:0">Words: <b>${d[1]}</b> + ${d[3]}</div><div class="row" style="border:0;padding:4px 0"><input type="text" id="id${i}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Sentence ${i+1}"><button data-d="${i}">Check</button></div></div><div class="fb" id="fd${i}"></div></div>`).join(""));
+h+=sec("e","Complete each sentence with the missing word(s). Press Check or Enter.",E.map((e,i)=>`<div class="row"><span class="em">${e[0]}</span><span>${e[1]}</span><input type="text" id="ie${i}" style="flex:0 1 170px" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Answer ${i+1}"><span>${e[2]}</span><button data-e="${i}">Check</button><div class="fb" id="fe${i}"></div></div>`).join(""));
+$("#app").innerHTML=h;
+
+/* ---------- 1 sorting ---------- */
+document.querySelectorAll("select[data-a]").forEach(s=>s.onchange=()=>{const i=+s.dataset.a,f=$("#fa"+i);if(s.value===""){S.a[i]=0;s.className="";f.textContent="";upd();return}
+const ok=+s.value===A[i][1];S.a[i]=ok?1:0;mark(s,ok);f.textContent=ok?"✓":"✗";f.className="fb "+(ok?"ok":"no");upd()});
+
+/* ---------- 2 ordering ---------- */
+const P=B.map(_=>[]);
+function rb(i){const w=B[i][1];$("#lb"+i).innerHTML=w.map((x,j)=>P[i].includes(j)?"":`<button class="chip" data-p="${i}.${j}">${x}</button>`).join("");
+$("#pb"+i).innerHTML=P[i].map(j=>`<button class="chip" data-q="${i}.${j}">${w[j]}</button>`).join("")||'<span class="hint" style="margin:0">your answer</span>'}
+B.forEach((_,i)=>rb(i));
+$("#app").addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;const d=t.dataset;
+if(d.p||d.q){const[i,j]=(d.p||d.q).split(".").map(Number);if(d.p)P[i].push(j);else P[i]=P[i].filter(x=>x!==j);S.b[i]=0;$("#fb"+i).textContent="";$("#pb"+i).classList.remove("ok","bad");rb(i);upd()}
+else if(d.r!==undefined){const i=+d.r;P[i]=[];S.b[i]=0;$("#fb"+i).textContent="";$("#pb"+i).classList.remove("ok","bad");rb(i);upd()}
+else if(d.b!==undefined){const i=+d.b,f=$("#fb"+i),box=$("#pb"+i);if(P[i].length<B[i][1].length){f.textContent="Use all the words first.";f.className="fb no";return}
+const ok=P[i].map(j=>B[i][1][j]).join(" ")===B[i][2];S.b[i]=ok?1:0;mark(box,ok);f.textContent=ok?"✓ Correct!":"✗ Not yet. Think: opinion → size → age → shape → colour → origin → material → purpose.";f.className="fb "+(ok?"ok":"no");upd()}
+else if(d.c){const[i,j]=d.c.split(".").map(Number),ok=j===CA[i],f=$("#fc"+i);S.c[i]=ok?1:0;
+document.querySelectorAll(`#oc${i} button`).forEach(b=>b.classList.remove("ok","bad"));mark(t,ok);f.textContent=ok?"✓ Correct!":"✗ Not quite. Check the order of the adjectives.";f.className="fb "+(ok?"ok":"no");upd()}
+else if(d.d!==undefined)chkD(+d.d);else if(d.e!==undefined)chkE(+d.e)});
+
+/* ---------- 4 + 5 typing with instant check ---------- */
+function chkD(i){const inp=$("#id"+i),f=$("#fd"+i),v=N(inp.value);if(!v){f.textContent="Type your sentence first.";f.className="fb no";return}
+const ok=v===N(D[i][2]);S.d[i]=ok?1:0;mark(inp,ok);
+if(ok){f.textContent="✓ Correct!";f.className="fb ok"}
+else{const ws=v.split(" "),adj=D[i][1].split(", ").map(N),all=adj.every(a=>ws.includes(a));
+f.textContent=all?"✗ You have the right words. Check the order, the article (a / an) and the noun.":"✗ Check that you used every word, and your spelling.";f.className="fb no"}upd()}
+function chkE(i){const inp=$("#ie"+i),f=$("#fe"+i),v=N(inp.value);if(!v){f.textContent="Type your answer first.";f.className="fb no";return}
+const ok=E[i][3].split("|").includes(v);S.e[i]=ok?1:0;mark(inp,ok);f.textContent=ok?"✓ Correct!":"✗ Not yet. "+E[i][4];f.className="fb "+(ok?"ok":"no");upd()}
+document.querySelectorAll("input[type=text][id^=id],input[type=text][id^=ie]").forEach(x=>{x.addEventListener("keydown",e=>{if(e.key==="Enter"){const i=+x.id.slice(2);x.id[1]==="d"?chkD(i):chkE(i)}});
+x.addEventListener("input",()=>{const i=+x.id.slice(2),k=x.id[1]==="d"?"d":"e";if(S[k][i]){S[k][i]=0;upd()}x.classList.remove("ok","bad");$("#f"+k+i).textContent=""})});
+
+/* ---------- results ---------- */
+$("#cp").onclick=async()=>{const[t,m]=upd(),n=$("#nm").value.trim()||"(no name)";
+const tx=`Describing objects worksheet\nName: ${n}\nTotal: ${t} / ${m}\n`+Object.keys(S).map(k=>`${T[k]}: ${S[k].reduce((x,y)=>x+y,0)} / ${S[k].length}`).join("\n");
+try{await navigator.clipboard.writeText(tx);$("#cpm").textContent="Copied. Paste it into your message to your teacher."}catch(e){$("#cpm").textContent="Copy failed. Select and copy this: "+t+" / "+m+" ("+n+")"}};
+upd();
+</script></body></html>
